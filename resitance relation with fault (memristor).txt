@@ -1,0 +1,42 @@
+function memi555555 
+
+t = 0 : 0.01 : 4 ;
+v =1.5 * sin( 2 * pi * t );
+r_i = 2*10^3;
+
+To=298;
+Vstop=1.6;
+alpha=27;
+k=1.3806*10^-(23);
+Ea=3.1*1.602*10^-(19);
+T=To+ alpha*(Vstop)^2;
+x=-Ea./(k*T);
+Fd = 400*exp(x');
+
+r_off1 = 38*10^3;
+r_on1 =.1*10^3;
+
+gmax=1/(.1*10^3);
+gmin=1/(38*10^3);
+wmax=gmax;
+wmin=gmin;
+al=(gmax-gmin)/(wmax-wmin);
+beta=gmax-al*wmax;
+r_off=r_off1-al*Fd;
+r_on=r_on1-beta*Fd;
+d = 10*10^-(9);
+u_v = 10^-(14);
+k = u_v * r_on / d ^ 2 ; 
+r_d = r_off - r_on ;
+resistance( 1 ) = r_i ;
+area( 1 ) =0 ;
+i1 =1;
+for i =2:length( t )
+area(i) = area( i1 ) + 0.5* ( v( i )+v( i1 ) ) *( t( i )- t( i1 ) );
+resistance(i) = sqrt(resistance( 1 )^2 + 2 * (k).* r_d * area( i ) );
+i1=i ;
+end
+resistance ( resistance>r_off)=r_off;
+resistance( resistance<r_on )=r_on ;
+i = v / resistance(i) ;
+plot ( v,resistance )

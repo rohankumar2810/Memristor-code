@@ -1,0 +1,17 @@
+close all
+clear all
+t = 0 : 0.01 : 4 ;
+v =1.5 * sin( 2 * pi * t );
+r_i = 2*10^3;
+
+To=298;
+Vstop=1.6;
+alpha=27;
+k=1.3806*10^-(23);
+Ea=3.1*1.602*10^-(19);
+T=To+ t*alpha*(Vstop)^2;
+x=-Ea./(k*T);
+Fd = exp(x');
+Fd_0 = Fd(1)
+[t,Fd] = ode23(@(t,Fd) Fd ,t,Fd_0)
+plot(t,Fd)
